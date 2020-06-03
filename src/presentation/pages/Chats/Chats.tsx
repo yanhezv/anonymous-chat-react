@@ -7,12 +7,11 @@ import { databaseContext } from "src/contexts/DatabaseContext";
 import { IChat } from "src/services/interfaces";
 import { useCurrentUser } from "src/hooks/useCurrentUser";
 
-interface ChatsProps {
-}
+interface ChatsProps {}
 
-export const Chats: React.FC<ChatsProps> = ({ ...props}) => {
-   const { user } = useCurrentUser();
-   const { db } = useContext(databaseContext);
+export const Chats: React.FC<ChatsProps> = () => {
+   const { user }          = useCurrentUser();
+   const { db }            = useContext(databaseContext);
    const [chats, setChats] = useState<IChat[]>([]);
 
    useEffect(() => {
@@ -33,7 +32,7 @@ export const Chats: React.FC<ChatsProps> = ({ ...props}) => {
             {
                chats.map(chat => (
                   <Item key={chat.id}>
-                     <ChatItem name={chat.name} message="" href="/" />
+                     <ChatItem name={chat.name} href={`/chat/${chat.id}`} />
                   </Item>
                ))
             }

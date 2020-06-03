@@ -11,7 +11,7 @@ export const Messages = styled.div`
    overflow: auto;
 `;
 
-export const InputContainer = styled.div`
+export const InputContainer = styled.form`
    position: absolute;
    bottom: 0;
    left: 0;

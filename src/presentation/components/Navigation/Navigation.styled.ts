@@ -2,9 +2,15 @@ import styled from "styled-components";
 
 export const Container = styled.section`
    height: 100%;
-   overflow: auto;
+   overflow: hidden;
    position: relative;
    padding: 50px 0;
+`;
+
+export const Content = styled.div`
+   height: 100%;
+   max-height: 100%;
+   overflow: auto;
 `;
 
 export const BottonNavigationBar = styled.nav`

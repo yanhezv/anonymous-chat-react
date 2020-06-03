@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useCurrentUser } from "src/hooks/useCurrentUser";
 
 import { AppBar } from "../AppBar";
-import { Container, BottonNavigationBar, Items, Item, Button } from "./Navigation.styled";
+import { Container, Content, BottonNavigationBar, Items, Item, Button } from "./Navigation.styled";
 
 interface NavigationProps {
    title: string;
@@ -16,7 +16,9 @@ export const Navigation: React.FC<NavigationProps> = ({ title, ...props}) => {
       <Container>
          <AppBar title={`${user.nick} | ${title}`}/>
 
-         { props.children }
+         <Content>
+            { props.children }
+         </Content>
 
          <BottonNavigationBar>
             <Items>

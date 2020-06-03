@@ -1,12 +1,13 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useParams, useHistory } from 'react-router-dom';
+
+import { useCurrentUser } from "src/hooks/useCurrentUser";
 import { databaseContext } from "src/contexts/DatabaseContext";
 import { IChat, IMessage } from "src/services/interfaces";
 
-import { AppBar } from "src/presentation/components/AppBar";
+import { AppBarChat } from "./components/AppBarChat";
 import { Message } from "./components/Message";
 import { Container, Messages, InputContainer, Input, SendButton } from "./Chat.styled";
-import { useCurrentUser } from "src/hooks/useCurrentUser";
 
 interface ChatProps {
 }
@@ -22,8 +23,10 @@ export const Chat: React.FC<ChatProps> = ({ ...props}) => {
    const [messages, setMessages] = useState<IMessage[]>([]);
    const [currentMessage, setCurrentMessage] = useState('');
 
-   const handleClick = () => {
-      if(db && chat !== null) {
+   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+
+      if (db && chat !== null && currentMessage.trim() !== '') {
          db.messages.add({ chat_id: parseInt(chatId, 10) || 0, message: currentMessage, nick: user.nick })
          .then(()=> {
             db.messages.where('chat_id').equals(parseInt(chatId, 10) || 0).toArray()
@@ -34,6 +37,7 @@ export const Chat: React.FC<ChatProps> = ({ ...props}) => {
          })
       }
    }
+
    const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
       setCurrentMessage(e.target.value);
    }
@@ -46,8 +50,6 @@ export const Chat: React.FC<ChatProps> = ({ ...props}) => {
                db.messages.where('chat_id').equals(parseInt(chatId, 10) || 0).toArray()
                .then((msgs) => {
                   setChat(data[0]);
-                  console.log(msgs);
-
                   setMessages(msgs);
                })
             } else {
@@ -67,7 +69,7 @@ export const Chat: React.FC<ChatProps> = ({ ...props}) => {
 
    return (
       <Container>
-         <AppBar title={`${chat.name}`} />
+         <AppBarChat title={`${chat.name}`} />
          <Messages>
             {
                messages.map((message) => (
@@ -80,13 +82,13 @@ export const Chat: React.FC<ChatProps> = ({ ...props}) => {
                ))
             }
          </Messages>
-         <InputContainer>
+         <InputContainer onSubmit={handleSubmit} >
             <Input
                placeholder = "Nuevo mensaje"
                value       = {currentMessage}
                onChange    = {handleChangeInput}
             />
-            <SendButton onClick={handleClick}>Enviar</SendButton>
+            <SendButton type="submit">Enviar</SendButton>
          </InputContainer>
       </Container>
    );

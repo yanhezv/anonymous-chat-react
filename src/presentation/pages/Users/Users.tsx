@@ -9,18 +9,16 @@ import { Items, Item } from "./Users.styled";
 import { ChatItem } from "src/presentation/components/ChatItem";
 import { useCurrentUser } from "src/hooks/useCurrentUser";
 
-interface UsersProps {
-}
+interface UsersProps {}
 
-export const Users: React.FC<UsersProps> = ({ ...props}) => {
-   const history = useHistory();
-   const {user} = useCurrentUser();
-   const {db}   = useContext(databaseContext);
+export const Users: React.FC<UsersProps> = () => {
+   const history           = useHistory();
+   const { user }          = useCurrentUser();
+   const { db }            = useContext(databaseContext);
    const [users, setUsers] = useState<IUser[]>([]);
 
    const handleClick = (userSelected: IUser) => {
-      console.log(userSelected);
-      if (db) {
+      if (db && userSelected.id) {
          const chat: IChat = {
             name: userSelected.nick,
             type: ChatType.Private,
