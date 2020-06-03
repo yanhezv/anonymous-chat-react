@@ -7,6 +7,7 @@ export const Container = styled.article`
    display: flex;
    justify-content: space-between;
    padding: 5px;
+   cursor: pointer;
 
    &:hover {
       background-color: #dedede;

@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from 'react-router-dom';
+import { useCurrentUser } from "src/hooks/useCurrentUser";
 
 import { AppBar } from "../AppBar";
 import { Container, BottonNavigationBar, Items, Item, Button } from "./Navigation.styled";
@@ -9,9 +10,11 @@ interface NavigationProps {
 }
 
 export const Navigation: React.FC<NavigationProps> = ({ title, ...props}) => {
+   const { user } = useCurrentUser();
+
    return (
       <Container>
-         <AppBar title= {title}/>
+         <AppBar title={`${user.nick} | ${title}`}/>
 
          { props.children }
 
