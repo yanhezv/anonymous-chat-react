@@ -31,13 +31,15 @@ export const Item = styled.li`
    width: 100%
 `;
 
-export const Button = styled.div`
+export const Button = styled.div<{ $active: boolean }>`
    width: 100%;
    height: 100%;
    display: flex;
    align-items: center;
    justify-content: center;
    background-color: ${({ theme }) => theme.colors.greySoft};
+   color: ${({ $active, theme }) => $active ? theme.colors.primary : theme.colors.text };
+   font-weight: ${({ $active }) => $active ? 'bold' : 'normal' };
    &:hover {
       color: ${({ theme }) => theme.colors.primary};
    }

@@ -7,9 +7,10 @@ import { Container, Content, BottonNavigationBar, Items, Item, Button } from "./
 
 interface NavigationProps {
    title: string;
+   itemActived: '1' | '2' | '3' | '4';
 }
 
-export const Navigation: React.FC<NavigationProps> = ({ title, ...props}) => {
+export const Navigation: React.FC<NavigationProps> = ({ title, itemActived, ...props}) => {
    const { user } = useCurrentUser();
 
    return (
@@ -22,10 +23,10 @@ export const Navigation: React.FC<NavigationProps> = ({ title, ...props}) => {
 
          <BottonNavigationBar>
             <Items>
-               <Item><Link to={`/chats`}><Button>Chats</Button></Link></Item>
-               <Item><Link to={`/groups`}><Button>Grupos</Button></Link></Item>
-               <Item><Link to={`/users`}><Button>Usuarios</Button></Link></Item>
-               <Item><Link to={`/search`}><Button>Buscar</Button></Link></Item>
+               <Item><Link to={`/chats`}><Button $active={itemActived === '1'}>Chats</Button></Link></Item>
+               <Item><Link to={`/groups`}><Button $active={itemActived === '2'}>Grupos</Button></Link></Item>
+               <Item><Link to={`/users`}><Button $active={itemActived === '3'}>Usuarios</Button></Link></Item>
+               <Item><Link to={`/search`}><Button $active={itemActived === '4'}>Buscar</Button></Link></Item>
             </Items>
          </BottonNavigationBar>
       </Container>
