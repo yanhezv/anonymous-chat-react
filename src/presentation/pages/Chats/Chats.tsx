@@ -18,8 +18,10 @@ export const Chats: React.FC<ChatsProps> = ({ ...props}) => {
    useEffect(() => {
       if (db) {
          db.userChats.where('user_id').equals(user.id || 0).toArray().then(data => {
-            console.log("USER CHATS",data);
-            // setChats(data);
+            const arrayChats = data.map(value => value.chat_id);
+            db.chats.bulkGet(arrayChats).then(resp => {
+               setChats(resp);
+            })
          });
       }
    }, [db])

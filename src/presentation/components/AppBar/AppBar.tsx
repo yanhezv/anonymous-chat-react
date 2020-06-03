@@ -1,20 +1,50 @@
-import React from "react";
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
 
-import { Container, Title, EditButton } from "./AppBar.styled";
+import { Container, Input, Title, EditButton } from "./AppBar.styled";
+import { useCurrentUser } from "src/hooks/useCurrentUser";
 
 interface AppBarProps {
    title: string;
 }
 
-export const AppBar: React.FC<AppBarProps> = ({ title, ...props}) => {
+export const AppBar: React.FC<AppBarProps> = ({ title }) => {
+   const {user, edit }           = useCurrentUser();
+   const [isEditing, setEditing] = useState(false);
+   const [newNick, setNewNick]   = useState('');
+
+   const handleEditButton = () => {
+      if (isEditing && newNick.length > 0) {
+         edit({...user, nick: newNick });
+      }
+      else {
+         setNewNick(user.nick);
+      }
+
+      setEditing(!isEditing);
+   }
+
+   const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setNewNick(e.target.value);
+   }
+
+   useEffect(() => {
+      setNewNick(user.nick);
+   }, [user])
 
    return (
       <Container>
-         <Title>{title}</Title>
-         <EditButton>
-            <Link to="edit">Editar</Link>
-         </EditButton>
+         {
+            isEditing ? (
+               <Input
+                  value       = {newNick}
+                  onChange    = {handleChangeInput}
+                  placeholder = "Nombre de usuario"
+               />
+            ): (
+               <Title>{title}</Title>
+            )
+         }
+         <EditButton onClick={handleEditButton}>{ isEditing ? 'Guardar': 'Editar'}</EditButton>
       </Container>
    );
 }

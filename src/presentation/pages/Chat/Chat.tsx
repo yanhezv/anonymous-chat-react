@@ -23,13 +23,13 @@ export const Chat: React.FC<ChatProps> = ({ ...props}) => {
    const [currentMessage, setCurrentMessage] = useState('');
 
    const handleClick = () => {
-      console.log("CLICKKC", currentMessage);
       if(db && chat !== null) {
          db.messages.add({ chat_id: parseInt(chatId, 10) || 0, message: currentMessage, nick: user.nick })
          .then(()=> {
             db.messages.where('chat_id').equals(parseInt(chatId, 10) || 0).toArray()
             .then((msgs) => {
                setMessages(msgs);
+               setCurrentMessage('');
             })
          })
       }
@@ -43,11 +43,8 @@ export const Chat: React.FC<ChatProps> = ({ ...props}) => {
          db.chats.where('id').equals(parseInt(chatId, 10) || 0).toArray()
          .then(data => {
             if(data.length > 0) {
-               console.log("DATOSSS");
-
                db.messages.where('chat_id').equals(parseInt(chatId, 10) || 0).toArray()
                .then((msgs) => {
-                  console.log("DATOSSS--------------");
                   setChat(data[0]);
                   console.log(msgs);
 

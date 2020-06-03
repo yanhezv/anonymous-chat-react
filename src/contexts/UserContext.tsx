@@ -18,6 +18,13 @@ export const UserContextProvider: React.FC = ({children}) => {
    const [currentUser, setCurrentUser] = useState<IUser>({ nick: 'Anónimo' });
 
    const editCurrentUser = (user: IUser) => {
+      if (db && user.id) {
+         db.users.update(user.id, {nick: user.nick})
+         .then((data) => {
+            // console.log(data);
+         })
+
+      }
       setCurrentUser(user);
       sessionStorage.setItem("username", JSON.stringify(user));
    }
